@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تجربة تحديد الموقع</title>
+</head>
+<body>
+  <h2>تجربة تحديد الموقع الجغرافي</h2>
+
+  <p>اضغط الزر واسمح للمتصفح بالوصول إلى موقعك.</p>
+
+  <button id="locate">اعرض موقعي</button>
+  <pre id="result">لم يتم طلب الموقع بعد.</pre>
+
+  <script>
+    const button = document.getElementById("locate");
+    const result = document.getElementById("result");
+
+    button.addEventListener("click", () => {
+      if (!navigator.geolocation) {
+        result.textContent = "المتصفح لا يدعم تحديد الموقع.";
+        return;
+      }
+
+      result.textContent = "في انتظار إذن الموقع...";
+
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          result.textContent =
+            "خط العرض: " + position.coords.latitude +
+            "\nخط الطول: " + position.coords.longitude;
+        },
+        (error) => {
+          result.textContent = "تعذر تحديد الموقع: " + error.message;
+        }
+      );
+    });
+  </script>
+</body>
+</html>
